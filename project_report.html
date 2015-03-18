@@ -61,22 +61,22 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>It was pretty straightforward data set to train. I was planning to do some pre-processing, cross validation and run a stacked auto encoder over dataset but at the first test run with a random forrest without any complicated preprocessing I reached accuracy of 0.9984398, so I just run it over test data set and get the full mark.</p>
 <div id="reading-data" class="section level2">
 <h2>Reading Data</h2>
-<p>I have ownload and dread train and test data from files using this code:</p>
+<p>I have download and read train and test data from files using this code:</p>
 <pre><code>training &lt;- read.csv(&quot;./data/training.csv&quot;, header=TRUE, na.strings=c(&quot;&quot;,&quot;NA&quot;,&quot;#DIV/0!&quot;))
 testing &lt;- read.csv(&quot;./data/testing.csv&quot;, header=TRUE, na.strings=c(&quot;&quot;,&quot;NA&quot;,&quot;#DIV/0!&quot;))</code></pre>
 </div>
 <div id="preprocessing" class="section level2">
 <h2>PreProcessing</h2>
-<p>The whole pre-processing that I have done was just eliminating some features(predictors). There were predictors that was more than 90 percent empty just find them and excluded them. (and also the first index column that has no meaning for us).</p>
+<p>The whole pre-processing that I have done was just eliminating some features(predictors). There were predictors that was more than 90 percent empty just find them and excluded them. (and also the first index column, that has no meaning for us).</p>
 <pre><code>dims&lt;- dim(training);m &lt;- dims[1];n &lt;- dims[2]
 junk &lt;- c(1)
 for( i in 1:n)
 {
   if(sum(is.na(training[,i]))/m &gt; 0.9)
-    junk &lt;- c(lame, i)
+    junk &lt;- c(junk, i)
 }
 
-training &lt;- training[,-ljunk]
+training &lt;- training[,-sizejunk]
 testing &lt;- testing[,-junk]</code></pre>
 </div>
 <div id="data-slicing" class="section level2">
