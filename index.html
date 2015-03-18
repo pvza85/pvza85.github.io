@@ -99,15 +99,15 @@ subTest &lt;- training[-inTrain,]</code></pre>
 <pre class="r"><code>pred &lt;- predict(modFit, subTest)
 accuracy &lt;- sum(pred == subTest$classe) / nrow(subTest)
 accuracy</code></pre>
-<pre><code>## [1] 0.9989805</code></pre>
+<pre><code>## [1] 0.9998301</code></pre>
 <pre class="r"><code>table(pred, subTest$classe)</code></pre>
 <pre><code>##     
 ## pred    A    B    C    D    E
 ##    A 1674    1    0    0    0
-##    B    0 1138    1    0    0
-##    C    0    0 1025    3    0
-##    D    0    0    0  961    1
-##    E    0    0    0    0 1081</code></pre>
+##    B    0 1138    0    0    0
+##    C    0    0 1026    0    0
+##    D    0    0    0  964    0
+##    E    0    0    0    0 1082</code></pre>
 <p>I applyed this model over test set and applied to course website and it was 100% correct. So no more work needed, Bye…</p>
 </div>
 
