@@ -1,0 +1,71 @@
+---
+title: "ProjectReport"
+author: "Payam Azad"
+date: "Wednesday, March 18, 2015"
+output: html_document
+---
+
+It was pretty straightforward data set to train. I was planning to do some pre-processing, cross validation and run a stacked auto encoder over dataset but at the first test run with a random forrest without any complicated preprocessing I reached accuracy of 0.9984398, so I just run it over test data set and get the full mark.
+
+
+Reading Data
+---
+I have ownload and dread train and test data from files using this code:
+
+```
+training <- read.csv("./data/training.csv", header=TRUE, na.strings=c("","NA","#DIV/0!"))
+testing <- read.csv("./data/testing.csv", header=TRUE, na.strings=c("","NA","#DIV/0!"))
+```
+
+PreProcessing
+---
+The whole pre-processing that I have done was just eliminating some features(predictors). There were predictors that was more than 90 percent empty just find them and excluded them. (and also the first index column that has no meaning for us).
+
+```
+dims<- dim(training);m <- dims[1];n <- dims[2]
+junk <- c(1)
+for( i in 1:n)
+{
+  if(sum(is.na(training[,i]))/m > 0.9)
+    junk <- c(lame, i)
+}
+
+training <- training[,-ljunk]
+testing <- testing[,-junk]
+```
+
+Data Slicing
+---
+I just partition training data to 2 sub partitions. 0.7 for train and 0.3 for testing.
+
+```
+set.seed(2258)
+inTrain <- createDataPartition(y=training$classe, p=0.7, list=FALSE)
+subTrain <- training[inTrain,]
+subTest <- training[-inTrain,]
+```
+Training
+---
+I have trained the subTrain using a random forrest with the previous seeding(continuing).
+
+```
+modFit<- train(classe~., data=subTrain, method="rf", prox=TRUE)
+```
+The result was pretty impressive. The best accuracy was 0.9984398 that is a very good result for a multiclass classifier with 5 classes and the best kappa was 0.9980263. So I just stopped training here and start predicting.
+
+
+Prediction
+---
+The prediction results was pretty good. The results was like this:
+
+```{r}
+pred <- predict(modFit, subTest)
+accuracy <- sum(pred == subTest$classe) / nrow(subTest)
+accuracy
+
+table(pred, subTest$classe)
+```
+
+I applyed this model over test set and applied to course website and it was 100% correct. So no more work needed, Bye...
+
+
